@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"math"
 )
 
@@ -21,7 +20,7 @@ func main() {
 
 }
 
-func Palindome(i int) bool {
+func Palindrome(i int) bool {
 	if i < 0 {
 		return false
 	}
@@ -31,39 +30,31 @@ func Palindome(i int) bool {
 
 func Reverse(in int) int {
 	is := make([]int,0)
-	mn := -1
+	mn := in
 	i := 1
+	sum := 0.0
+
+	var f func(f float64) float64
+	if in > 0 {
+		f = math.Floor
+	} else {
+		f = math.Ceil
+	}
+
 	for mn != 0 {
-		fmt.Println("in", in)
-		fmt.Println("mn",mn)
-		fmt.Println("i",i)
-		fmt.Println(len(is))
-		fmt.Println(is)
-		//fmt.Println(float64(in))
-		//fmt.Println(float64(10^i))
-		//fmt.Println(10^i)
-		//fmt.Println(float64(in)/math.Pow(float64(10)/float64(i)))
-		fmt.Println("----")
-		mn = int(math.Floor(float64(in)/math.Pow10(i)))
+		mn = int(f(float64(in) / math.Pow10(i)))
+
 		m := math.Mod(float64(in), math.Pow10(i))
-		if i != 1 {
-			fmt.Println(is)
-			fmt.Println(is[i-1])
-			m = m - float64(is[i-1])
-		}
+		m = f(m / math.Pow10(i-1))
 		is = append(is, int(m))
-		fmt.Println("mn",mn)
-		fmt.Println("m",m)
+		sum += m
 		i++
 	}
 
-	fmt.Println("is",is)
-
 	l := len(is)
-	fmt.Println("l",l)
 	result := 0
 	for i = range is {
-		result += is[l-i] * (10^i)
+		result += is[l-i-1] * int(math.Pow10(i))
 	}
 
 	return result
